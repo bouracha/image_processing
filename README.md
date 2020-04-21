@@ -16,7 +16,7 @@ from image import *
 ```python
 apply_hed("pytorch-hed/", '', 'test_hed')
 ```
-Example of object oriented image transformation pipeline:
+- Example of object oriented image transformation pipeline (see class for argument changes from default):
 ```python
 image = IMAGE('test_hed.png')
 image.add_gaussian_noise()
