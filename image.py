@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 
 
 def apply_hed(path_to_image, path_to_write, name):
