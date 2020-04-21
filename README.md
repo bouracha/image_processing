@@ -3,7 +3,6 @@
 
 -To download appropriate model to run HED:
 ```bash
-cd pytorch-hed
-bash script.sh
+bash setup.sh
 ```
--the rest of the functions can be run from root directory
+-the rest of the functions can be run from root directory.
