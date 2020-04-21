@@ -6,3 +6,7 @@
 bash setup.sh
 ```
 -the rest of the functions can be run from root directory.
+
+```python
+from image import *
+```
