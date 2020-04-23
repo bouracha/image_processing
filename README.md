@@ -19,8 +19,8 @@ apply_hed("pytorch-hed/", '', 'test_hed')
 - Example of object oriented image transformation pipeline (see class for argument changes from default):
 ```python
 image = IMAGE('test_hed.png', gray=True)
-image.add_gaussian_noise()
-image.add_gaussian_blur()
+image.add_gaussian_noise(mean=0, std=1, scale=100)
+image.add_gaussian_blur(kernel_size=(5,5))
 ```
 
 finally write to file with:
