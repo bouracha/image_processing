@@ -51,12 +51,12 @@ class IMAGE(object):
 
   def decompose_image(self, n_H_sub=1024, n_W_sub=1024, stride=64):
     num_subsections_processed = 0
-    num_subsections = (((self.n_H - n_H_sub)/stride)+1)*(((self.n_W - n_W_sub + 1)/stride)+1)
+    num_subsections = (((self.n_H - n_H_sub)/stride)+1)*(((self.n_W - n_W_sub)/stride)+1)
     for i_H in range(0, self.n_H - n_H_sub + 1, stride):
       for i_W in range(0, self.n_W - n_W_sub + 1, stride):
         self.save_section(i_H, i_W, 'sub_sections', n_H_sub, n_W_sub)
         num_subsections_processed += 1
-        print("Number subsections= "+str(num_subsections_processed)+"/"+str(num_subsections))
+        print("Number subsections= "+str(num_subsections_processed)+"/"+str(int(num_subsections)))
     print("Number of subsections: ", num_subsections_processed)
 
 
