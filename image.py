@@ -36,5 +36,8 @@ class IMAGE(object):
   def write_to_file(self, path_to_write):
     cv2.imwrite(path_to_write, self.image)
 
+  def shape(self):
+    return(self.image.shape)
+
 
 
