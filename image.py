@@ -69,7 +69,6 @@ class IMAGE_OF_CARDS(object):
     sub_images_directory = 'sub_sections/'
     image_name = '_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_.png' #synthesized_image.jpg
     path_to_image = sub_images_directory + image_name
-    #print(path_to_image)
     card = cv2.imread(path_to_image)
     assert(card.shape == (n_H, n_W, self.n_C))
 
