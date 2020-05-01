@@ -79,7 +79,7 @@ class IMAGE_OF_CARDS(object):
     cards_added = 0
     for i_H in range(0, self.n_H - n_H_small + 1, stride):
       for i_W in range(0, self.n_W - n_W_small + 1, stride):
-        self.add_card(i_H=i_H, i_W=i_W, n_H=1024, n_W=1024, sub_images_directory = 'sub_sections/', file_ending='.png')
+        self.add_card(i_H=i_H, i_W=i_W, n_H=1024, n_W=1024, sub_images_directory=sub_images_directory, file_ending=file_ending)
         cards_added += 1
         print("Number of cards= " + str(cards_added) + "/" + str(int(num_cards)))
     # Renormalise with the card matrix counter
