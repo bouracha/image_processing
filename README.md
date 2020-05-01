@@ -27,3 +27,22 @@ finally write to file with:
 ```python
 image.write_to_file('final_image.png')
 ```
+
+For the purpose of stitiching together superresolutions a couple of extra functions were added to the IMAGE class. This requires methods of resizing a the image and iteratively saving segments to it. This can be alled in a loop as implemented in 
+```dockerfile
+python run_decomposition.py
+```
+Before running this, however, a folder named 'sub_sections/' must be created to save the produced sub sections. They will automatically be save in the format:
+```python
+'_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_'+'.png'
+```
+where (i_H, i_W) is (y,x) position of the top left pixel of the segment and (n_H, n_W) are the sizes of the sub images. This format is used to stitch back together also.
+An additional class 
+```python
+IMAGE_OF_CARDS(object)
+```
+Is used to stitch all these back together. Usage is as in 
+```python
+python stich_subimages.py
+```
+and requires providing the directory name and end of file names in the directory. Also the stride, and dimensionality if differs from default.
