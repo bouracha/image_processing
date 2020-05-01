@@ -65,9 +65,8 @@ class IMAGE_OF_CARDS(object):
     self.stitched_image = np.zeros((n_H, n_W, n_C), float)
     self.counting_matrix = np.zeros((n_H, n_W, n_C), float)
 
-  def add_card(self, i_H, i_W, n_H=1024, n_W=1024):
-    sub_images_directory = 'sub_sections/'
-    image_name = '_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_.png' #synthesized_image.jpg
+  def add_card(self, i_H, i_W, n_H=1024, n_W=1024, sub_images_directory = 'sub_sections/', file_ending='.png'):
+    image_name = '_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_'+str(file_ending)
     path_to_image = sub_images_directory + image_name
     card = cv2.imread(path_to_image)
     assert(card.shape == (n_H, n_W, self.n_C))
@@ -75,12 +74,12 @@ class IMAGE_OF_CARDS(object):
     self.stitched_image[i_H: i_H+n_H, i_W: i_W+n_W] = self.stitched_image[i_H: i_H+n_H, i_W: i_W+n_W] + card
     self.counting_matrix[i_H: i_H+n_H, i_W: i_W+n_W] = self.counting_matrix[i_H: i_H+n_H, i_W: i_W+n_W] + np.ones((n_H, n_W, self.n_C), float)
 
-  def add_all_cards(self, stride = 512, n_H_small = 1024, n_W_small = 1024):
+  def add_all_cards(self, stride = 512, n_H_small = 1024, n_W_small = 1024, sub_images_directory = 'sub_sections/', file_ending='.png'):
     num_cards = (((self.n_H - n_H_small)/stride)+1)*(((self.n_W - n_W_small)/stride)+1)
     cards_added = 0
     for i_H in range(0, self.n_H - n_H_small + 1, stride):
       for i_W in range(0, self.n_W - n_W_small + 1, stride):
-        self.add_card(i_H=i_H, i_W=i_W, n_H=1024, n_W=1024)
+        self.add_card(i_H=i_H, i_W=i_W, n_H=1024, n_W=1024, sub_images_directory = 'sub_sections/', file_ending='.png')
         cards_added += 1
         print("Number of cards= " + str(cards_added) + "/" + str(int(num_cards)))
     # Renormalise with the card matrix counter
