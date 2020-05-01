@@ -47,7 +47,7 @@ class IMAGE(object):
 
   def save_section(self, i_H, i_W, folder_to_save, n_H=1024, n_W=1024):
     sub_image = self.image[i_H: i_H+n_H, i_W: i_W+n_W]
-    cv2.imwrite(str(folder_to_save)+'/'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'.png', sub_image)
+    cv2.imwrite(str(folder_to_save)+'/'+'_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_'+'.png', sub_image)
 
   def decompose_image(self, n_H_sub=1024, n_W_sub=1024, stride=64):
     num_subsections_processed = 0
@@ -59,5 +59,36 @@ class IMAGE(object):
         print("Number subsections= "+str(num_subsections_processed)+"/"+str(int(num_subsections)))
     print("Number of subsections: ", num_subsections_processed)
 
+class IMAGE_OF_CARDS(object):
+  def __init__(self, n_H=8192, n_W=8192, n_C=3):
+    self.n_H, self.n_W, self.n_C = n_H, n_W, n_C
+    self.stitched_image = np.zeros((n_H, n_W, n_C), float)
+    self.counting_matrix = np.zeros((n_H, n_W, n_C), float)
+
+  def add_card(self, i_H, i_W, n_H=1024, n_W=1024):
+    sub_images_directory = 'sub_sections/'
+    image_name = '_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_.png' #synthesized_image.jpg
+    path_to_image = sub_images_directory + image_name
+    #print(path_to_image)
+    card = cv2.imread(path_to_image)
+    assert(card.shape == (n_H, n_W, self.n_C))
+
+    self.stitched_image[i_H: i_H+n_H, i_W: i_W+n_W] = self.stitched_image[i_H: i_H+n_H, i_W: i_W+n_W] + card
+    self.counting_matrix[i_H: i_H+n_H, i_W: i_W+n_W] = self.counting_matrix[i_H: i_H+n_H, i_W: i_W+n_W] + np.ones((n_H, n_W, self.n_C), float)
+
+  def add_all_cards(self, stride = 512, n_H_small = 1024, n_W_small = 1024):
+    num_cards = (((self.n_H - n_H_small)/stride)+1)*(((self.n_W - n_W_small)/stride)+1)
+    cards_added = 0
+    for i_H in range(0, self.n_H - n_H_small + 1, stride):
+      for i_W in range(0, self.n_W - n_W_small + 1, stride):
+        self.add_card(i_H=i_H, i_W=i_W, n_H=1024, n_W=1024)
+        cards_added += 1
+        print("Number of cards= " + str(cards_added) + "/" + str(int(num_cards)))
+    # Renormalise with the card matrix counter
+    self.stitched_image = self.stitched_image/self.counting_matrix
+
+
+  def write_to_file(self, path_to_write):
+    cv2.imwrite(path_to_write, self.stitched_image)
 
 

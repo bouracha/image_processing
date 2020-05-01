@@ -6,4 +6,4 @@ print(image.shape())
 image.re_size()
 print(image.shape())
 
-image.decompose_image(stride=64)
+image.decompose_image(stride=256)
