@@ -28,6 +28,7 @@ finally write to file with:
 ```python
 image.write_to_file('final_image.png')
 ```
+# Superresolution: Decomposing and Stitching
 
 For the purpose of stitiching together superresolutions a couple of extra functions were added to the IMAGE class. This requires methods of resizing a the image and iteratively saving segments to it. This can be alled in a loop as implemented in 
 ```dockerfile
@@ -47,3 +48,20 @@ Is used to stitch all these back together. Usage is as in
 python stich_subimages.py
 ```
 and requires providing the directory name and end of file names in the directory. Also the stride, and dimensionality if differs from default.
+
+# Augmentation pipeline
+
+Pipeline currently implemented you must provide the desired height and width in pixels (this will be the dimensionality of the train and inference images). Now, for each image in the dataset:
+- First fits the most dissimilar dimension to the size of the desired corresponding dimension (such that the other dimension is large than required) and then selects 3 subsections:
+-- the top/left; centre; and bottom/right along the other dimension. Each are saved to supplied write directory.
+- The original image is left-right flipped (mirrored) and the first step is repeated.
+- The original image is then up-down flipped and the first step is repeated.
+- The original image is then left-right flipped and up-down flipped (flip-flopped one might say) and the first step is repeated.
+- Finally the original image is simply warped into the desired dimensions and finally also save.
+
+13 pieces for each image are therefore saved in the current pipeline.
+
+This may all be run with the single commandline:
+```python
+python augment.py --data_dir 'targets/' --write_dir 'sub_sections' --required_height 1656 --required_width 1024 --num_images 2 
+```
