@@ -14,7 +14,8 @@ from image import *
 
 - We can apply HED by providing the (read_directory, write_directory, file_name) in the following way:
 ```python
-apply_hed("pytorch-hed/", '', 'test_hed')
+image = IMAGE(path_to_image='pytorch-hed/', name_of_image='test_hed', extension='.jpg', gray=False)
+
 ```
 - Example of object oriented image transformation pipeline (see class for argument changes from default):
 ```python

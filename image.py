@@ -12,15 +12,20 @@ def apply_hed(path_to_image, path_to_write, name):
 
 class IMAGE(object):
 
-  def __init__(self, path_to_image, gray=True):
+  def __init__(self, path_to_image, name_of_image, extension, gray=False):
     self.gray=gray
+    self.read_path = path_to_image
+    self.name = name_of_image
     if gray==True:
-      self.image = cv2.imread(path_to_image, cv2.COLOR_BGR2GRAY)
+      self.image = cv2.imread(str(path_to_image)+str(name_of_image)+str(extension), cv2.COLOR_BGR2GRAY)
       self.n_H, self.n_W = self.image.shape
     else:
-      self.image = cv2.imread(path_to_image)
+      self.image = cv2.imread(str(path_to_image)+str(name_of_image)+str(extension))
       self.n_H, self.n_W, self.n_C = self.image.shape
 
+  '''
+  Generic image processing functions performed 'in-place'
+  '''
   def add_gaussian_noise(self, mean=0, std=1, scale=100):
     if (self.gray==True):
       noise = scale*np.random.rand(self.n_H, self.n_W)
@@ -41,13 +46,57 @@ class IMAGE(object):
   def shape(self):
     return(self.image.shape)
 
+  '''
+  To ensure images are of expected size and extract subsections of desired sizes
+  '''
+  def check_ratios_to_expected(self, n_H_expected, n_W_expected):
+    r_H = self.n_H/n_H_expected
+    r_W = self.n_W/n_W_expected
+    return r_H, r_W
+
+  def assert_sufficiently_sized(self, n_H_expected, n_W_expected):
+    r_H, r_W = self.check_ratios_to_expected(n_H_expected=n_H_expected, n_W_expected=n_W_expected)
+    if (r_H != 1 or r_W != 1):
+      if r_H < r_W:
+        self.re_size(n_H_new=n_H_expected, n_W_new=int(self.n_W/(1.0*r_H)))
+      elif r_W < r_H:
+        self.re_size(n_H_new=int(self.n_H/(1.0*r_W)), n_W_new=n_W_expected)
+      else:
+        self.re_size(n_H_new=n_H_expected, n_W_new=n_W_expected)
+    assert(self.n_H >= n_H_expected and self.n_W >= n_W_expected)
+
+  def save_left_centre_right(self, folder_to_save, n_H_expected, n_W_expected):
+    self.assert_sufficiently_sized(n_H_expected=n_H_expected, n_W_expected=n_W_expected)
+    r_H, r_W = self.check_ratios_to_expected(n_H_expected=n_H_expected, n_W_expected=n_W_expected)
+    print(r_H, r_W )
+    if r_H > r_W:
+      t_i = 0
+      c_i = self.n_H//2 - n_H_expected//2
+      b_i = self.n_H - n_H_expected
+      self.save_section(t_i, 0, folder_to_save, n_H=n_H_expected, n_W=n_W_expected, save_name='t')
+      self.save_section(c_i, 0, folder_to_save, n_H=n_H_expected, n_W=n_W_expected, save_name='c')
+      self.save_section(b_i, 0, folder_to_save, n_H=n_H_expected, n_W=n_W_expected, save_name='b')
+    else:
+      l_i = 0
+      c_i = self.n_W//2 - n_W_expected//2
+      r_i = self.n_W - n_W_expected
+      self.save_section(0, l_i, folder_to_save, n_H=n_H_expected, n_W=n_W_expected, save_name='l')
+      self.save_section(0, c_i, folder_to_save, n_H=n_H_expected, n_W=n_W_expected, save_name='c')
+      self.save_section(0, r_i, folder_to_save, n_H=n_H_expected, n_W=n_W_expected, save_name='r')
+
+  '''
+  Methods to resize and save sub-sections; singly or strided
+  '''
   def re_size(self, n_H_new=8192, n_W_new=8192):
     self.image = cv2.resize(self.image, (n_H_new, n_W_new))
     self.n_H, self.n_W = n_H_new, n_W_new
 
-  def save_section(self, i_H, i_W, folder_to_save, n_H=1024, n_W=1024):
+  def save_section(self, i_H, i_W, folder_to_save, n_H=1024, n_W=1024, save_name=None):
     sub_image = self.image[i_H: i_H+n_H, i_W: i_W+n_W]
-    cv2.imwrite(str(folder_to_save)+'/'+'_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_'+'.png', sub_image)
+    if save_name == None:
+      cv2.imwrite(str(folder_to_save)+'/'+'_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_'+'.png', sub_image)
+    else:
+      cv2.imwrite(str(folder_to_save) + '/' + str(save_name) + '.png', sub_image)
 
   def decompose_image(self, n_H_sub=1024, n_W_sub=1024, stride=64):
     num_subsections_processed = 0
