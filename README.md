@@ -62,6 +62,6 @@ Pipeline currently implemented you must provide the desired height and width in 
 13 pieces for each image are therefore saved in the current pipeline.
 
 This may all be run with the single commandline:
-```python
+```commandline
 python augment.py --data_dir 'targets/' --write_dir 'sub_sections' --required_height 1656 --required_width 1024 --num_images 2 
 ```
