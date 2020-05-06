@@ -5,7 +5,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--data_dir', type=str, default='targets/', help='path to data')
 parser.add_argument('--write_dir', type=str, default='sub_sections/', help='path to write augmentations')
-parser.add_argument('--required_height', type=int, default=1656, help='height in pixels desired')
+parser.add_argument('--required_height', type=int, default=1536, help='height in pixels desired')
 parser.add_argument('--required_width', type=int, default=1024, help='width in pixels desired')
 parser.add_argument('--num_images', type=int, default=1, help='number of images in directory (default 1)')
 parser.add_argument('--extension', type=str, default='.png', help='extension of files in folder to be read')
