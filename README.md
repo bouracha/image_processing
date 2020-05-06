@@ -57,9 +57,9 @@ Pipeline currently implemented you must provide the desired height and width in 
 - The original image is left-right flipped (mirrored) and the first step is repeated.
 - The original image is then up-down flipped and the first step is repeated.
 - The original image is then left-right flipped and up-down flipped (flip-flopped one might say) and the first step is repeated.
-- Finally the original image is simply warped into the desired dimensions and finally also save.
+- Finally the original image is simply warped into the desired dimensions and saved as itself; its flipped self; its flopped self; and its flip-flopped self.
 
-13 pieces for each image are therefore saved in the current pipeline.
+16 pieces for each image are therefore saved in the current pipeline.
 
 This may all be run with the single commandline:
 ```commandline
