@@ -6,7 +6,7 @@ import sys
 
 
 def apply_hed(path_to_images, path_to_write):
-  image_list = os.listdir(path_to_image)
+  image_list = os.listdir(path_to_images)
   num_images = len(image_list)
 
   counter = 0
@@ -16,7 +16,7 @@ def apply_hed(path_to_images, path_to_write):
     if image.valid_image == False:
       continue
     command = 'python pytorch-hed/run.py --model bsds500 --in '+str(path_to_images)+str(i)+' --out '+str(path_to_write)+str(image.name)+'.png'
-    print(command+'{} processed of {}'.format(counter, num_images))
+    print(command+' {} processed of {}'.format(counter, num_images))
     os.system(command)
 
 class IMAGE(object):
