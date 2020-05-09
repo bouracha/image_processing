@@ -5,23 +5,49 @@ import sys
 
 
 
-def apply_hed(path_to_image, path_to_write, name):
-  command = 'python pytorch-hed/run.py --model bsds500 --in '+str(path_to_image)+str(name)+'.jpg --out '+str(path_to_write)+str(name)+'.png'
-  print(command)
-  os.system(command)
+def apply_hed(path_to_images, path_to_write):
+  image_list = os.listdir(path_to_image)
+  num_images = len(image_list)
+
+  counter = 0
+  for i in image_list:
+    counter += 1
+    image = IMAGE(path_to_image=path_to_images, name_of_image=str(i))
+    if image.valid_image == False:
+      continue
+    command = 'python pytorch-hed/run.py --model bsds500 --in '+str(path_to_images)+str(i)+' --out '+str(path_to_write)+str(image.name)+'.png'
+    print(command+'{} processed of {}'.format(counter, num_images))
+    os.system(command)
 
 class IMAGE(object):
 
-  def __init__(self, path_to_image, name_of_image, extension, gray=False):
+  def __init__(self, path_to_image, name_of_image, gray=False):
+    self.valid_image = self.check_valid_extension(name_of_image)
+    if self.valid_image != True:
+      print("'{}' is not an image or does not have valid image type".format(name_of_image))
+      return None
     self.gray=gray
     self.read_path = str(path_to_image)
     self.name = str(name_of_image)
     if gray==True:
-      self.image = cv2.imread(str(path_to_image)+'/'+str(name_of_image)+str(extension), cv2.COLOR_BGR2GRAY)
+      self.image = cv2.imread(str(path_to_image)+'/'+str(name_of_image), cv2.COLOR_BGR2GRAY)
       self.n_H, self.n_W = self.image.shape
     else:
-      self.image = cv2.imread(str(path_to_image)+str(name_of_image)+str(extension))
+      self.image = cv2.imread(str(path_to_image)+str(name_of_image))
       self.n_H, self.n_W, self.n_C = self.image.shape
+
+  def check_valid_extension(self, name_of_image):
+    self.name = str(name_of_image[:-4])
+    self.extension = str(name_of_image[-4:])
+    extension_types_list = self.define_extension_types()
+    if self.extension in extension_types_list:
+      return True
+    else:
+      return False
+
+  def define_extension_types(self):
+    extension_types = ['.png', '.jpg']
+    return extension_types
 
   '''
   Generic image processing functions performed 'in-place'

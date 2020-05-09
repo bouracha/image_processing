@@ -12,9 +12,12 @@ the rest of the functions can be run from root directory.
 from image import *
 ```
 
-- We can apply HED by providing the (read_directory, write_directory, file_name) in the following way:
+- We can apply HED by providing the (read_directory, write_directory) in the following way:
 ```python
-image = IMAGE(path_to_image='pytorch-hed/', name_of_image='test_hed', extension='.jpg', gray=False)
+apply_hed(path_to_images='targets/', path_to_write='hed/')
+```
+```python
+image = IMAGE(path_to_image='pytorch-hed/', name_of_image='test_hed.jpg', gray=False)
 
 ```
 - Example of object oriented image transformation pipeline (see class for argument changes from default):
@@ -63,5 +66,5 @@ Pipeline currently implemented you must provide the desired height and width in 
 
 This may all be run with the single commandline:
 ```commandline
-python augment.py --data_dir 'targets/' --write_dir 'sub_sections' --required_height 1656 --required_width 1024 --num_images 2 
+python augment.py --data_dir 'targets/' --write_dir 'sub_sections' --required_height 1656 --required_width 1024
 ```
