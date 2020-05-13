@@ -30,7 +30,8 @@ class IMAGE(object):
     self.read_path = str(path_to_image)
     self.name = str(name_of_image)
     if gray==True:
-      self.image = cv2.imread(str(path_to_image)+'/'+str(name_of_image), cv2.COLOR_BGR2GRAY)
+      self.image = cv2.imread(str(path_to_image)+'/'+str(name_of_image))
+      self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
       self.n_H, self.n_W = self.image.shape
     else:
       self.image = cv2.imread(str(path_to_image)+str(name_of_image))
