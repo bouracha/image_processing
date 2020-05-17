@@ -75,6 +75,13 @@ class IMAGE(object):
   def shape(self):
     return(self.image.shape)
 
+  def label(self, name):
+    labels = {"vinci": 64}
+    if name in labels.keys():
+      self.image[:8, :8] = labels[name]
+    else:
+      print("No such label, choose from: {}".format(labels.keys()))
+
   '''
   Other Augmentation techniques
   '''
