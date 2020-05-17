@@ -77,7 +77,7 @@ class IMAGE(object):
     return(self.image.shape)
 
   def label(self, name):
-    labels = {"vinci": 64}
+    labels = {"vinci": 64, "vanson": 128}
     if name in labels.keys():
       self.image[:8, :8] = labels[name]
     else:
