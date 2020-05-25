@@ -20,15 +20,19 @@ for i in image_list:
     image = IMAGE(path_to_image=opt.data_dir, name_of_image=str(i))
     if image.valid_image == False:
         continue
-    image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
-    image.fliplr()
-    image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
+    if (image.n_H != opt.required_height) or (image.n_W != opt.required_width):
+        print("Slicing desired dimensionality, there will be 16 augmentations made")
+        image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
+        image.fliplr()
+        image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
 
-    image = IMAGE(path_to_image=opt.data_dir, name_of_image=i)
-    image.flipud()
-    image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
-    image.fliplr()
-    image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
+        image = IMAGE(path_to_image=opt.data_dir, name_of_image=i)
+        image.flipud()
+        image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
+        image.fliplr()
+        image.save_left_centre_right(opt.write_dir, n_H_expected=opt.required_height, n_W_expected=opt.required_width)
+    else:
+        print("Desired dimensionality is already present, there will be 4 augmentations made")
 
     #Finally one warped image is saved
     image = IMAGE(path_to_image=opt.data_dir, name_of_image=str(i))
