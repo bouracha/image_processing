@@ -16,7 +16,7 @@ num_images = len(image_list)
 counter = 0
 for i in image_list:
     counter += 1
-    print("Augmenting image: {} of {}".format(counter, num_images))
+    print("Augmenting image: {} of {}: {}".format(counter, num_images, i))
     image = IMAGE(path_to_image=opt.data_dir, name_of_image=str(i))
     if image.valid_image == False:
         continue
