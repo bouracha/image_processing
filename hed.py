@@ -23,5 +23,5 @@ def apply_hed(path_to_images, path_to_write):
     command = 'python pytorch-hed/run.py --model bsds500 --in '+str(path_to_images)+str(i)+' --out '+str(path_to_write)+str(i)
     print(command+' {} processed of {}'.format(counter, num_images))
     os.system(command)
-    
- apply_hed(opt.read_dir, opt.write_dir)
+   
+apply_hed(opt.read_dir, opt.write_dir)
