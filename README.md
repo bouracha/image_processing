@@ -14,7 +14,7 @@ from image import *
 
 - We can apply HED by providing the (read_directory, write_directory) in the following way:
 ```python
-apply_hed(path_to_images='targets/', path_to_write='hed/')
+python3 hed.py --read_dir 'images/' --write_dir 'hed/'
 ```
 ```python
 image = IMAGE(path_to_image='pytorch-hed/', name_of_image='test_hed.jpg', gray=False)
