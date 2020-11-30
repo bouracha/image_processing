@@ -1,6 +1,6 @@
 from image import *
 
-image = IMAGE("../../Desktop/best_so_far.jpg", gray=False)
+image = IMAGE("../../Desktop/", "best_so_far.jpg", gray=False)
 print(image.shape())
 
 image.re_size()
