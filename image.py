@@ -32,7 +32,7 @@ class IMAGE(object):
       return False
 
   def define_extension_types(self):
-    extension_types = ['.png', '.jpg']
+    extension_types = ['.png', '.jpg', '.jpeg']
     return extension_types
 
   '''
@@ -130,7 +130,7 @@ class IMAGE(object):
     sub_image = self.image[i_H: i_H+n_H, i_W: i_W+n_W]
     if save_name == None:
       cv2.imwrite(str(folder_to_save)+'/'+'_'+str(i_H)+'_'+str(i_W)+'_'+str(n_H)+'_'+str(n_W)+'_'+'.png', sub_image)
-    else:
+    else: 
       cv2.imwrite(str(folder_to_save) + '/' + str(save_name) + '.png', sub_image)
 
   def decompose_image(self, n_H_sub=1024, n_W_sub=1024, stride=64):
