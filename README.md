@@ -68,3 +68,9 @@ This may all be run with the single commandline:
 ```commandline
 python augment.py --data_dir 'targets/' --write_dir 'sub_sections' --required_height 1656 --required_width 1024
 ```
+
+# NeoMaster 1 cropping with saved values (output should be 13508X8800):
+```commandline
+python3 save_section.py
+```
+
