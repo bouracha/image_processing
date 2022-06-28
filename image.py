@@ -173,4 +173,21 @@ class IMAGE_OF_CARDS(object):
   def write_to_file(self, path_to_write):
     cv2.imwrite(path_to_write, self.stitched_image)
 
+class SIDE_BY_SIDE(object):
+  def __init__(self, n_H=256, n_W=512, n_C=3):
+    self.n_H, self.n_W, self.n_C = n_H, n_W, n_C
+    self.stitched_image = np.zeros((n_H, n_W, n_C), float)
+
+  def add_images(self, path_to_left, path_to_right, name):
+    left_image = IMAGE(path_to_image=path_to_left, name_of_image=name)
+    left_image.re_size(n_H_new=256, n_W_new=256)
+    right_image = IMAGE(path_to_image=path_to_right, name_of_image=name)
+    right_image.re_size(n_H_new=256, n_W_new=256)
+
+    self.stitched_image[0: self.n_H, 0: 256] = self.stitched_image[0: self.n_H, 0: 256] + left_image.image
+    self.stitched_image[0: self.n_H, 256: self.n_W] = self.stitched_image[0: self.n_H, 256: self.n_W] + right_image.image
+
+  def write_to_file(self, path_to_write):
+    cv2.imwrite(path_to_write, self.stitched_image)
+
 
